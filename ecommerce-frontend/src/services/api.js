@@ -14,3 +14,7 @@ export async function getProductsByCategory(categoryId) {
   const response = await fetch(`${BASE_URL}/products/category/${categoryId}`);
   return response.json();
 }
+export async function getProduct(id) {
+  const response = await fetch(`${BASE_URL}/products/${id}`);
+  return response.json();
+}

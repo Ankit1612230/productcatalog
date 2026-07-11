@@ -74,60 +74,64 @@ if (loading) {
   );
 }
 return (
-  <>
-    <Navbar />
-    <div className="bg-primary text-white text-center py-5 mb-4">
-      <h1>Welcome to E-Commerce Store</h1>
-      <p>Discover the latest products at the best prices.</p>
-    </div>
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={
+        <>
+          <Navbar />
 
-    <div className="container">
-      <h1 className="my-4 text-center">Product Catalog</h1>
+          <div className="container">
+            <h1 className="my-4 text-center">Product Catalog</h1>
 
-      <div className="row align-items-center mb-4">
-        <div className="col-md-3">
-          <CategoryFilter
-            categories={categories}
-            onSelect={handleCategorySelect}
-          />
-        </div>
+            <div className="row align-items-center mb-4">
+              <div className="col-md-3">
+                <CategoryFilter
+                  categories={categories}
+                  onSelect={handleCategorySelect}
+                />
+              </div>
 
-        <div className="col-md-5">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search products..."
-            onChange={handleSearchChange}
-          />
-        </div>
+              <div className="col-md-5">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Search products..."
+                  onChange={handleSearchChange}
+                />
+              </div>
 
-        <div className="col-md-4">
-          <select
-            className="form-control"
-            onChange={handleSortChange}
-          >
-            <option value="asc">Sort by Price: Low to High</option>
-            <option value="desc">Sort by Price: High to Low</option>
-          </select>
-        </div>
-      </div>
+              <div className="col-md-4">
+                <select
+                  className="form-control"
+                  onChange={handleSortChange}
+                >
+                  <option value="asc">Sort by Price: Low to High</option>
+                  <option value="desc">Sort by Price: High to Low</option>
+                </select>
+              </div>
+            </div>
 
-      <hr />
+            <hr />
 
-      {filteredProducts.length ? (
-        <ProductList products={filteredProducts} />
-      ) : (
-        <div className="text-center mt-5">
-          <h4>No Products Found</h4>
-          <p className="text-muted">
-            Try a different search or category.
-          </p>
-        </div>
-      )}
-    </div>
+            {filteredProducts.length ? (
+              <ProductList products={filteredProducts} />
+            ) : (
+              <div className="text-center mt-5">
+                <h4>No Products Found</h4>
+                <p className="text-muted">
+                  Try a different search or category.
+                </p>
+              </div>
+            )}
+          </div>
 
-    <Footer />
-  </>
+          <Footer />
+        </>
+      } />
+
+      <Route path="/product/:id" element={<ProductDetails />} />
+    </Routes>
+  </BrowserRouter>
 );
 }
 
