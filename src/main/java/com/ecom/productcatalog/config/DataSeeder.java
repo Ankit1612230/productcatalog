@@ -15,16 +15,19 @@ public class DataSeeder implements CommandLineRunner {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
 
-    public DataSeeder(ProductRepository productRepository, CategoryRepository categoryRepository) {
+    public DataSeeder(ProductRepository productRepository,
+                      CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        // Clear all existing data
-        productRepository.deleteAll();
-        categoryRepository.deleteAll();
+    public void run(String... args) {
+
+        // Seed data only if categories don't already exist
+        if (categoryRepository.count() > 0) {
+            return;
+        }
 
         // Create Categories
         Category electronics = new Category();
@@ -36,7 +39,7 @@ public class DataSeeder implements CommandLineRunner {
         Category home = new Category();
         home.setName("Home and Kitchen");
 
-        categoryRepository.saveAll(Arrays.asList(electronics, home, clothing));
+        categoryRepository.saveAll(Arrays.asList(electronics, clothing, home));
 
         // Create Products
         Product phone = new Product();
@@ -67,6 +70,13 @@ public class DataSeeder implements CommandLineRunner {
         blender.setPrice(89.99);
         blender.setCategory(home);
 
-        productRepository.saveAll(Arrays.asList(phone, laptop, jacket, blender));
+        productRepository.saveAll(Arrays.asList(
+                phone,
+                laptop,
+                jacket,
+                blender
+        ));
+
+        System.out.println("Sample categories and products inserted successfully.");
     }
 }

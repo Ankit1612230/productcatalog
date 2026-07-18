@@ -43,10 +43,17 @@ public class CartService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        CartItem cartItem = new CartItem();
-        cartItem.setCart(cart);
-        cartItem.setProduct(product);
-        cartItem.setQuantity(quantity);
+        CartItem cartItem = cartItemRepository
+                .findByCartIdAndProductId(cart.getId(), product.getId())
+                .orElse(new CartItem());
+
+        if (cartItem.getId() == null) {
+            cartItem.setCart(cart);
+            cartItem.setProduct(product);
+            cartItem.setQuantity(quantity);
+        } else {
+            cartItem.setQuantity(cartItem.getQuantity() + quantity);
+        }
 
         return cartItemRepository.save(cartItem);
     }
